@@ -27,4 +27,4 @@ def solver(x0, y0, z0, sigma, beta, rho, N, t_delta):
     return x, y, z
 
 
-x, y, z = solver(1, 1, 1, 10, 8./3, 6, 3, 0.01)
+x, y, z = solver(1, 1, 1, 10, 8./3, 6, 1000, 0.01)
