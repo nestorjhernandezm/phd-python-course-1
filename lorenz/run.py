@@ -12,6 +12,8 @@ and possible another function that
 
 """
 import solver as sv
+import csv
+
 
 x0 = 1
 y0 = 1
@@ -23,3 +25,9 @@ N = 200
 t_delta = 0.01
 
 x, y, z = sv.calculate_states(x0, y0, z0, sigma, beta, rho, N, t_delta)
+
+
+resultFile = open("./test.csv",'wb')
+wr = csv.writer(resultFile)
+wr.writerows(x)
+resultFile.close()
