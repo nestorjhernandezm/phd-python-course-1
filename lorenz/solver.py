@@ -1,15 +1,14 @@
 import scipy as sp
 
 
-def solver(x0, y0, z0, sigma, beta, rho, N, t_delta):
+def calculate_states(x0, y0, z0, sigma, beta, rho, N, t_delta):
     """
-    The ODE Solver for the project: This function calculates
-    the vectors x, y and z for the trajectories of the attractor.
+    This function calculates the states x, y and z of the attractor.
 
     Inputs:
     x0, y0, z0: Coordinates of the initial condition
     sigma, beta, rho: Attractor parameters
-    N, t_delta: Total number of trajectory points and solver step
+    N, t_delta: Total number of coordinate points and step size
     """
     x = sp.zeros([N, 1])
     y = sp.zeros([N, 1])
@@ -27,4 +26,4 @@ def solver(x0, y0, z0, sigma, beta, rho, N, t_delta):
     return x, y, z
 
 
-x, y, z = solver(1, 1, 1, 10, 8./3, 6, 1000, 0.01)
+
