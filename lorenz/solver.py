@@ -24,6 +24,3 @@ def calculate_states(x0, y0, z0, sigma, beta, rho, N, t_delta):
         z[n + 1] = z[n] + t_delta * (x[n] * y[n] - (beta * z[n]))
 
     return x, y, z
-
-
-
