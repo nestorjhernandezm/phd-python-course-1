@@ -10,8 +10,8 @@ def generate_data(sigma, beta, rho, N, t_delta, x, y, z):
     """
     Generate output data for later processing. The output
     is an array containing the all the states and the conditions
-    used to generate them. This will simplify the processing at
-    a later stage.
+    used to generate them. This will simplify the processing and
+    plotting at a later stage.
     """
     S = sigma * sp.ones([N, 1])
     B = beta * sp.ones([N, 1])
