@@ -1,9 +1,9 @@
 import scipy as sp
 
 
-def calculate_states(x0, y0, z0, sigma, beta, rho, N, t_delta):
+def compute_states(x0, y0, z0, sigma, beta, rho, N, t_delta):
     """
-    This function calculates the states x, y and z of the attractor.
+    This function computes the states x, y and z of the attractor.
 
     Inputs:
     x0, y0, z0: Coordinates of the initial condition

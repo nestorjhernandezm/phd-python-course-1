@@ -12,24 +12,29 @@ and possible another function that
 
 """
 import solver as sv
+import util as ut
 import filehandling as fh
-import scipy as sp
+import plot as pl
 
-import pandas as pd
+# Initial Condition
+x0 = 0.01
+y0 = 0
+z0 = 0
 
-x0 = 1
-y0 = 1
-z0 = 1
-
+# Attractor parameters
 sigma = 10
 beta = 8./3
-rho = 6
-N = 200
+rho = 28
+N = 5000
 t_delta = 0.01
 
-x, y, z = sv.calculate_states(x0, y0, z0, sigma, beta, rho, N, t_delta)
+# States computation
+x, y, z = sv.compute_states(x0, y0, z0, sigma, beta, rho, N, t_delta)
 
-data = fh.generate_data(sigma, beta, rho, N, t_delta, x, y, z)
-sp.savetxt('data.csv', data, delimiter=',')
+# Give data an array format and store in a local data file
+data = ut.generate_data(sigma, beta, rho, N, t_delta, x, y, z)
+filename = 'data.csv'
+fh.save_data(filename, data)
 
-df = pd.read_csv('data.csv')
+# Plot data file into Pandas dataframe
+pl.plot_data(filename)
