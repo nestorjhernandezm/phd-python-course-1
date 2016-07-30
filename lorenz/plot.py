@@ -34,25 +34,51 @@ def compute_color(x, y, z):
     return color
 
 
+def create_3d_plot(table, plot_type):
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+
+    if (plot_type == 'plot'):
+        ax.plot(table['X'], table['Y'], table['Z'], c='b')
+
+    if (plot_type == 'scatter'):
+        color = compute_color(table['X'], table['Y'], table['Z'])
+        ax.scatter(table['X'], table['Y'], table['Z'], c=color)
+
+    ax.set_xlabel(r'$X$')
+    ax.set_ylabel(r'$Y$')
+    ax.set_zlabel(r'$Z$')
+
+
+def create_2d_plot(table, plot_type, abcissa, ordinate):
+    fig = plt.figure()
+    ax = fig.gca()
+
+    if (plot_type == 'plot'):
+        ax.plot(table[abcissa], table[ordinate], c='b')
+
+    if (plot_type == 'scatter'):
+        color = compute_color(table[abcissa], table[ordinate], 0)
+        ax.scatter(table[abcissa], table[ordinate], c=color)
+
+    ax.grid('on')
+    ax.set_xlabel(r'$' + abcissa + '$')
+    ax.set_ylabel(r'$' + ordinate + '$')
+
+
 def plot_data(filename):
     df = pd.read_csv(filename)  # Load data into Pandas dataframe
     df_group = df.groupby(by=['Sigma', 'Beta', 'Rho'])
 
     for keys, group in df_group:
         table = group.pivot_table(['X', 'Y', 'Z'], index=group.index)
-        fig1 = plt.figure()
-        fig2 = plt.figure()
 
-        ax1 = fig1.gca(projection='3d')
-        ax2 = fig2.gca(projection='3d')
+        create_3d_plot(table, 'plot')
+        create_3d_plot(table, 'scatter')
 
-        ax1.plot(table['X'], table['Y'], table['Z'])
-        ax1.set_xlabel(r'$X$')
-        ax1.set_ylabel(r'$Y$')
-        ax1.set_zlabel(r'$Z$')
-
-        color = compute_color(table['X'], table['Y'], table['Z'])
-        ax2.scatter(table['X'], table['Y'], table['Z'], c=color)
-        ax2.set_xlabel(r'$X$')
-        ax2.set_ylabel(r'$Y$')
-        ax2.set_zlabel(r'$Z$')
+        create_2d_plot(table, 'plot', 'X', 'Y')
+        create_2d_plot(table, 'scatter', 'X', 'Y')
+        create_2d_plot(table, 'plot', 'X', 'Z')
+        create_2d_plot(table, 'scatter', 'X', 'Z')
+        create_2d_plot(table, 'plot', 'Y', 'Z')
+        create_2d_plot(table, 'scatter', 'Y', 'Z')

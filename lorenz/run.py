@@ -36,5 +36,5 @@ data = ut.generate_data(sigma, beta, rho, N, t_delta, x, y, z)
 filename = 'data.csv'
 fh.save_data(filename, data)
 
-# Plot data file into Pandas dataframe
+# Plot data file
 pl.plot_data(filename)
