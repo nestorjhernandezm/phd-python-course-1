@@ -6,7 +6,7 @@ def compute_states(x0, y0, z0, sigma, beta, rho, N, t_delta):
     This function computes the states x, y and z of the attractor.
 
     Inputs:
-    x0, y0, z0: Coordinates of the initial condition
+    x0, y0, z0: Coordinates of the initial conditions
     sigma, beta, rho: Attractor parameters
     N, t_delta: Total number of coordinate points and step size
     """
