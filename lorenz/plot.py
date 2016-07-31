@@ -24,6 +24,18 @@ plt.rc('ytick', labelsize=font_size)
 
 
 def compute_color(x, y, z):
+    """
+    Compute the color array in the jet colormap, for the distance of
+    the points with coordinate arrays (x, y, z) and the origin. The returned
+    array is used with the scatter plot.
+
+    NOTE: The simple 'plot' command was not able to take this as an input.
+
+    Inputs:
+    x: Scipy array for the x-positions
+    y: Scipy array for the y-positions
+    z: Scipy array for the z-positions
+    """
     distance = sp.sqrt(x ** 2 + y ** 2 + z ** 2)
     norm = mpl.colors.Normalize(vmin=min(distance), vmax=max(distance))
     cmap = cm.jet
@@ -35,6 +47,14 @@ def compute_color(x, y, z):
 
 
 def get_title(initial_conditions, parameters):
+    """
+    Generate plot title in LaTeX format from the initial conditions
+    (x0, y0 and z0) and the atracttor parameters.
+
+    Inputs:
+    initial_conditions: Tuple for (x0,y0,z0)
+    parameters: Tuple for (sigma, beta, rho)
+    """
     condition_names = ['x_0', 'y_0', 'z_0']
     parameter_names = [r'$\sigma$', r'$\beta$', r'$\rho$']
 
@@ -60,7 +80,42 @@ def get_title(initial_conditions, parameters):
     return title
 
 
+def get_plot_filename(initial_conditions, parameters):
+    """
+    Generate plot PDF filensame in simple text format from the
+    initial conditions (x0, y0 and z0) and the atracttor parameters.
+
+    Inputs:
+    initial_conditions: Tuple for (x0,y0,z0)
+    parameters: Tuple for (sigma, beta, rho)
+    """
+    condition_names = ['x0', 'y0', 'z0']
+    parameter_names = ['sigma', 'beta', 'rho']
+    names = condition_names + parameter_names
+    full_parameters = initial_conditions + parameters
+
+    plot_filename = ''
+    for name in names:
+        value = full_parameters[names.index(name)]
+        plot_filename += name + '_' + str(value)
+
+        if (name != 'rho'):
+            plot_filename += '_'
+
+    return plot_filename
+
+
 def create_3d_plot(table, plot_type, parameters):
+    """
+    Create and save full 3D plot from the attractor states
+    and given parameters. If 'scatter' is selected as plot_type,
+    a point is colored according its Euclidean distance from the origin.
+
+    Inputs:
+    table: Pandas dataframe with the states for fixed parameters
+    plot_type: String for seleting the plot type
+    parameters: Tuple for (sigma, beta, rho)
+    """
     fig = plt.figure()
     ax = fig.gca(projection='3d')
 
@@ -72,13 +127,28 @@ def create_3d_plot(table, plot_type, parameters):
         ax.scatter(table['X'], table['Y'], table['Z'], c=color)
 
     initial_conditions = (table['X'][0], table['Y'][0], table['Z'][0])
-    ax.set_title(get_title(initial_conditions, parameters))
+    ax.set_title(get_title(initial_conditions, parameters), fontsize=10)
     ax.set_xlabel(r'$X$')
     ax.set_ylabel(r'$Y$')
     ax.set_zlabel(r'$Z$')
 
+    name = get_plot_filename(initial_conditions, parameters)
+    plt.savefig(name + '_' + plot_type + '_full_3D.pdf')
+
 
 def create_2d_plot(table, plot_type, abcissa, ordinate, parameters):
+    """
+    Create and save a 2D abcissa-ordinate plot from the attractor state
+    and given parameters. If 'scatter' is selected as plot_type,
+    a point is colored according its Euclidean distance from the origin.
+
+    Inputs:
+    table: Pandas dataframe with the states for fixed parameters
+    plot_type: String for seleting the plot type
+    abcissa: String for the selected abcissa axis
+    ordinate: String for the selected ordinate axis
+    parameters: Tuple for (sigma, beta, rho)
+    """
     fig = plt.figure()
     ax = fig.gca()
 
@@ -91,26 +161,36 @@ def create_2d_plot(table, plot_type, abcissa, ordinate, parameters):
 
     ax.grid('on')
     initial_conditions = (table['X'][0], table['Y'][0], table['Z'][0])
-    ax.set_title(get_title(initial_conditions, parameters), fontsize=12)
+    ax.set_title(get_title(initial_conditions, parameters), fontsize=10)
     ax.set_xlabel(r'$' + abcissa + '$')
     ax.set_ylabel(r'$' + ordinate + '$')
 
-    plt.tight_layout()
-    plt.savefig('test_figure.pdf')
+    name = get_plot_filename(initial_conditions, parameters)
+    plt.savefig(name + '_' + plot_type + '_2D_' + abcissa + ordinate +
+                '_plane.pdf')
 
 
 def plot_data(filename):
+    """
+    Create and save a set of 3D and 2D abcissa-ordinate plots from the
+    attractor state and given parameters stored in the 'filename' file in
+    CSV format. The plots are stored locally in the 'lorenz' folder and
+    are separated for a fixed set of the attractor parameters.
+
+    Inputs:
+    filename: String with the file name
+    """
     df = pd.read_csv(filename)  # Load data into Pandas dataframe
     df_group = df.groupby(by=['Sigma', 'Beta', 'Rho'])
 
     for keys, group in df_group:
         table = group.pivot_table(['X', 'Y', 'Z'], index=group.index)
 
-#        create_3d_plot(table, 'plot', keys)
-#        create_3d_plot(table, 'scatter', keys)
+        create_3d_plot(table, 'plot', keys)
+        create_3d_plot(table, 'scatter', keys)
         create_2d_plot(table, 'plot', 'X', 'Y', keys)
-#        create_2d_plot(table, 'scatter', 'X', 'Y', keys)
-#        create_2d_plot(table, 'plot', 'X', 'Z', keys)
-#        create_2d_plot(table, 'scatter', 'X', 'Z', keys)
-#        create_2d_plot(table, 'plot', 'Y', 'Z', keys)
-#        create_2d_plot(table, 'scatter', 'Y', 'Z', keys)
+        create_2d_plot(table, 'scatter', 'X', 'Y', keys)
+        create_2d_plot(table, 'plot', 'X', 'Z', keys)
+        create_2d_plot(table, 'scatter', 'X', 'Z', keys)
+        create_2d_plot(table, 'plot', 'Y', 'Z', keys)
+        create_2d_plot(table, 'scatter', 'Y', 'Z', keys)
