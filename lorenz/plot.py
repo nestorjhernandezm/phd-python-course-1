@@ -34,7 +34,33 @@ def compute_color(x, y, z):
     return color
 
 
-def create_3d_plot(table, plot_type):
+def get_title(initial_conditions, parameters):
+    condition_names = ['x_0', 'y_0', 'z_0']
+    parameter_names = [r'$\sigma$', r'$\beta$', r'$\rho$']
+
+    title = r'$'
+    for name in condition_names:
+        value = initial_conditions[condition_names.index(name)]
+        title += name + '\ =\ ' + str(value)
+
+        if (name == 'z_0'):
+            title += '.\ $'
+        else:
+            title += ',\ '
+
+    for name in parameter_names:
+        value = parameters[parameter_names.index(name)]
+        title += name + '$\ =\ $' + '$' + str(value) + '$'
+
+        if (name == r'$\rho$'):
+            title += '$.$'
+        else:
+            title += '$,\ $'
+
+    return title
+
+
+def create_3d_plot(table, plot_type, parameters):
     fig = plt.figure()
     ax = fig.gca(projection='3d')
 
@@ -45,12 +71,14 @@ def create_3d_plot(table, plot_type):
         color = compute_color(table['X'], table['Y'], table['Z'])
         ax.scatter(table['X'], table['Y'], table['Z'], c=color)
 
+    initial_conditions = (table['X'][0], table['Y'][0], table['Z'][0])
+    ax.set_title(get_title(initial_conditions, parameters))
     ax.set_xlabel(r'$X$')
     ax.set_ylabel(r'$Y$')
     ax.set_zlabel(r'$Z$')
 
 
-def create_2d_plot(table, plot_type, abcissa, ordinate):
+def create_2d_plot(table, plot_type, abcissa, ordinate, parameters):
     fig = plt.figure()
     ax = fig.gca()
 
@@ -62,8 +90,13 @@ def create_2d_plot(table, plot_type, abcissa, ordinate):
         ax.scatter(table[abcissa], table[ordinate], c=color)
 
     ax.grid('on')
+    initial_conditions = (table['X'][0], table['Y'][0], table['Z'][0])
+    ax.set_title(get_title(initial_conditions, parameters), fontsize=12)
     ax.set_xlabel(r'$' + abcissa + '$')
     ax.set_ylabel(r'$' + ordinate + '$')
+
+    plt.tight_layout()
+    plt.savefig('test_figure.pdf')
 
 
 def plot_data(filename):
@@ -73,12 +106,11 @@ def plot_data(filename):
     for keys, group in df_group:
         table = group.pivot_table(['X', 'Y', 'Z'], index=group.index)
 
-        create_3d_plot(table, 'plot')
-        create_3d_plot(table, 'scatter')
-
-        create_2d_plot(table, 'plot', 'X', 'Y')
-        create_2d_plot(table, 'scatter', 'X', 'Y')
-        create_2d_plot(table, 'plot', 'X', 'Z')
-        create_2d_plot(table, 'scatter', 'X', 'Z')
-        create_2d_plot(table, 'plot', 'Y', 'Z')
-        create_2d_plot(table, 'scatter', 'Y', 'Z')
+#        create_3d_plot(table, 'plot', keys)
+#        create_3d_plot(table, 'scatter', keys)
+        create_2d_plot(table, 'plot', 'X', 'Y', keys)
+#        create_2d_plot(table, 'scatter', 'X', 'Y', keys)
+#        create_2d_plot(table, 'plot', 'X', 'Z', keys)
+#        create_2d_plot(table, 'scatter', 'X', 'Z', keys)
+#        create_2d_plot(table, 'plot', 'Y', 'Z', keys)
+#        create_2d_plot(table, 'scatter', 'Y', 'Z', keys)
