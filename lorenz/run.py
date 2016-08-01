@@ -7,8 +7,8 @@ This file may contain a convenient interface/function for
 
 and possible another function that
 
-2: load data from file  --------------> This is made in each case.py
-3: plot data            --------------> This is made in each case.py
+2: load data from file  --------------> This is made in each testcaseX.py
+3: plot data            --------------> This is made in each testcaseX.py
 
 """
 import util as ut

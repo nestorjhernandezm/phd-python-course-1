@@ -29,6 +29,8 @@ beta_df = file_parameters[testcase][1]
 beta = file_parameters[testcase][2]
 rho = file_parameters[testcase][3]
 
+filename = 'data_case' + testcase + '.csv'
+
 if (os.path.isfile('../lorenz/data.csv')):
     df = pd.read_csv('../lorenz/data.csv')
 
@@ -49,7 +51,6 @@ else:  # If data file is not there, calculate only the relevant dataset
     t_delta = 0.01
     case = (sigma, beta, rho)
     dataset = ut.generate_dataset(x0, y0, z0, N, t_delta, [case])
-    filename = 'data_case' + testcase + '.csv'
     fh.save_data(filename, dataset)
 
     # Load and plot data from new file
