@@ -11,11 +11,10 @@ and possible another function that
 3: plot data
 
 """
-import solver as sv
 import util as ut
 import filehandling as fh
 import plot as pl
-import scipy as sp
+import pandas as pd
 
 # Initial Condition
 x0 = 0.01
@@ -33,20 +32,13 @@ case3 = (10, 8./3, 28)
 case4 = (14, 8./3, 28)
 case5 = (14, 13./3, 28)
 
-dataset = sp.zeros([1, 8])
+cases = [case1, case2, case3, case4, case5]
 
-for sigma, beta, rho in [case1, case2, case3, case4, case5]:
-    x, y, z = sv.compute_states(x0, y0, z0, sigma, beta, rho, N, t_delta)
+dataset = ut.generate_dataset(x0, y0, z0, N, t_delta, cases)
 
-    # Give data an array format
-    data = ut.generate_data(sigma, beta, rho, N, t_delta, x, y, z)
-    dataset = sp.concatenate((dataset, data), axis=0)
+filename = 'data.csv'
+fh.save_data(filename, dataset)
 
-# Remove the first row of zeros
-dataset = sp.delete(dataset, (0), axis=0)
-
-#filename = 'data.csv'
-#fh.save_data(filename, data)
-#
-## Plot data file
-#pl.plot_data(filename)
+# Load and plot data from filename
+df = pd.read_csv(filename)  # Load data into Pandas dataframe
+pl.plot_data(df)

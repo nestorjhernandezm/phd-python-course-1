@@ -9,7 +9,7 @@ def save_data(filename, data):
     """
     Save the data as rows in a CSV file. The format of the file is:
 
-    Sigma   Beta  Rho   N    t_delta   X     Y     Z
+    Sigma   Beta  Rho   N    T_delta   X     Y     Z
       s0     b0   r0    n0   t_d0      x0    y0    z0
       s0     b0   r0    n0   t_d0      x1    y1    z1
       s0     b0   r0    n0   t_d0      x2    y2    z2

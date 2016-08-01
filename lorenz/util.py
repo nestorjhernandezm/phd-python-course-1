@@ -3,14 +3,15 @@ This file may contain utility functionalities to the extend you will need it
 
 """
 import scipy as sp
+import solver as sv
 
 
-def generate_data(sigma, beta, rho, N, t_delta, x, y, z):
+def generate_data_case(sigma, beta, rho, N, t_delta, x, y, z):
     """
-    Generate output data for later processing. The output
+    Generate output data for a given case for later processing. The output
     is a 2D array containing the all the states and the conditions
-    used to generate them as columns. This will simplify the processing
-    and plotting at a later stage.
+    used to generate them as columns for the given case. This will simplify
+    the processing and plotting at a later stage.
 
     Input:
     sigma: Sigma parameter of the attractor (integer)
@@ -30,3 +31,19 @@ def generate_data(sigma, beta, rho, N, t_delta, x, y, z):
 
     data = sp.column_stack((S, B, R, Na, T, x, y, z))
     return data
+
+
+def generate_dataset(x0, y0, z0, N, t_delta, cases):
+    dataset = sp.zeros([1, 8])
+
+    for sigma, beta, rho in cases:
+        x, y, z = sv.compute_states(x0, y0, z0, sigma, beta, rho, N, t_delta)
+
+        # Give data an array format
+        data = generate_data_case(sigma, beta, rho, N, t_delta, x, y, z)
+        dataset = sp.concatenate((dataset, data), axis=0)
+
+    # Remove the first row of zeros
+    dataset = sp.delete(dataset, (0), axis=0)
+
+    return dataset

@@ -7,7 +7,6 @@ import scipy as sp
 import matplotlib as mpl
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
-import pandas as pd
 
 
 # ##### PLOTTING SETTINGS ########
@@ -46,6 +45,12 @@ def compute_color(x, y, z):
     return color
 
 
+title_value = {'10.0': r'10',
+               '2.66666666667': r'\frac{8}{3}',
+               '6.0': r'6'
+               }
+
+
 def get_title(initial_conditions, parameters):
     """
     Generate plot title in LaTeX format from the initial conditions
@@ -70,7 +75,7 @@ def get_title(initial_conditions, parameters):
 
     for name in parameter_names:
         value = parameters[parameter_names.index(name)]
-        title += name + '$\ =\ $' + '$' + str(value) + '$'
+        title += name + '$\ =\ $' + '$' + title_value[str(value)] + '$'
 
         if (name == r'$\rho$'):
             title += '$.$'
@@ -170,17 +175,16 @@ def create_2d_plot(table, plot_type, abcissa, ordinate, parameters):
                 '_plane.pdf')
 
 
-def plot_data(filename):
+def plot_data(df):
     """
     Create and save a set of 3D and 2D abcissa-ordinate plots from the
-    attractor state and given parameters stored in the 'filename' file in
-    CSV format. The plots are stored locally in the 'lorenz' folder and
+    attractor state and given parameters stored in the dataframe 'df'.
+    The plots are stored locally in the 'lorenz' folder and
     are separated for a fixed set of the attractor parameters.
 
     Inputs:
-    filename: String with the file name
+    df: Pandas datafrane with the dataset
     """
-    df = pd.read_csv(filename)  # Load data into Pandas dataframe
     df_group = df.groupby(by=['Sigma', 'Beta', 'Rho'])
 
     for keys, group in df_group:
