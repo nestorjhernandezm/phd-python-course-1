@@ -7,14 +7,12 @@ This file may contain a convenient interface/function for
 
 and possible another function that
 
-2: load data from file
-3: plot data
+2: load data from file  --------------> This is made in each case.py
+3: plot data            --------------> This is made in each case.py
 
 """
 import util as ut
 import filehandling as fh
-import plot as pl
-import pandas as pd
 
 # Initial Condition
 x0 = 0.01
@@ -33,12 +31,7 @@ case4 = (14, 8./3, 28)
 case5 = (14, 13./3, 28)
 
 cases = [case1, case2, case3, case4, case5]
-
 dataset = ut.generate_dataset(x0, y0, z0, N, t_delta, cases)
 
 filename = 'data.csv'
 fh.save_data(filename, dataset)
-
-# Load and plot data from filename
-df = pd.read_csv(filename)  # Load data into Pandas dataframe
-pl.plot_data(df)
