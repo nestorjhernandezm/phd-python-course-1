@@ -95,7 +95,7 @@ A basic functionality for unit testing the solver is included in
 for the solver to show its purpose and functionality. You can check this by running (and observing)::
 
   cd ~/phd-python-1/test
-  python test.py  # For example for the testcase 1 or..
+  python test.py
   test_initial_condition (__main__.TestComputeStates) ... ok
   test_known_outputs (__main__.TestComputeStates) ... ok
   test_zero_output (__main__.TestComputeStates) ... ok
@@ -109,4 +109,8 @@ Final comment
 -------------
 The mini-project source code and structure was intended to be as easy and
 self-explanatory as possible, with proper inline comments added for
-non-obvious commands. Happy reading!
+non-obvious commands. I hope that you find it easy as well.
+
+Happy reading!
+Best,
+Nestor J. Hernandez M.
