@@ -44,10 +44,14 @@ def compute_color(x, y, z):
         color.append(mapper.to_rgba(d))
     return color
 
-
+# Dictionary for the LaTeX outputs of the values in a plot title
 title_value = {'10.0': r'10',
                '2.66666666667': r'\frac{8}{3}',
-               '6.0': r'6'
+               '6.0': r'6',
+               '16.0': r'16',
+               '28.0': r'28',
+               '14.0': r'14',
+               '4.33333333333': r'\frac{13}{3}',
                }
 
 
@@ -91,7 +95,7 @@ def get_plot_filename(initial_conditions, parameters):
     initial conditions (x0, y0 and z0) and the atracttor parameters.
 
     Inputs:
-    initial_conditions: Tuple for (x0,y0,z0)
+    initial_conditions: Tuple for (x0, y0, z0)
     parameters: Tuple for (sigma, beta, rho)
     """
     condition_names = ['x0', 'y0', 'z0']
@@ -183,12 +187,16 @@ def plot_data(df):
     are separated for a fixed set of the attractor parameters.
 
     Inputs:
-    df: Pandas datafrane with the dataset
+    df: Pandas datafrane with the dataset to plot from
     """
     df_group = df.groupby(by=['Sigma', 'Beta', 'Rho'])
 
     for keys, group in df_group:
         table = group.pivot_table(['X', 'Y', 'Z'], index=group.index)
+
+        # For continuous plotting of sliced dataframes, the plot command
+        # needs to have reseted indexes.
+        table = table.reset_index(drop=True)
 
         create_3d_plot(table, 'plot', keys)
         create_3d_plot(table, 'scatter', keys)

@@ -3,12 +3,18 @@ import scipy as sp
 
 def compute_states(x0, y0, z0, sigma, beta, rho, N, t_delta):
     """
-    This function computes the states x, y and z of the attractor.
+    This function computes the states x, y and z of the attractor using
+    an approximation based on the Euler method as an ODE solver.
 
     Inputs:
-    x0, y0, z0: Coordinates of the initial conditions
-    sigma, beta, rho: Attractor parameters
-    N, t_delta: Total number of coordinate points and step size
+    x0: Integer for the initial condition for the x-position
+    y0: Float64 for the initial condition for the y-position
+    z0: Integer for the initial condition for the z-position
+    sigma: Integer for the sigma attractor parameter
+    beta: Float64 for the beta attractor parameter
+    rho: Integer for the rho attractor parameter
+    N: Integer for the total number of steps of the solver
+    t_delta: Float64 for the step size of the solver
     """
     x = sp.zeros([N, 1])
     y = sp.zeros([N, 1])
