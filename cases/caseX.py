@@ -29,9 +29,12 @@ beta_df = file_parameters[testcase][1]
 beta = file_parameters[testcase][2]
 rho = file_parameters[testcase][3]
 
-filename = 'data_case' + testcase + '.csv'
+# Create data to store plots and data (if the latter has not been created)
+data_folder = './case' + testcase + '_files'
+os.mkdir(data_folder)
 
 if (os.path.isfile('../lorenz/data.csv')):
+
     df = pd.read_csv('../lorenz/data.csv')
 
     # Get only relevant slice of the full dataset
@@ -39,7 +42,7 @@ if (os.path.isfile('../lorenz/data.csv')):
                  (df['Rho'] == rho)]
     pl.plot_data(df_case)
 
-else:  # If data file is not there, calculate only the relevant dataset
+else:  # If data file is not there, calculate only the relevant dataset, store
 
     # Initial Condition
     x0 = 0.01
@@ -51,16 +54,14 @@ else:  # If data file is not there, calculate only the relevant dataset
     t_delta = 0.01
     case = (sigma, beta, rho)
     dataset = ut.generate_dataset(x0, y0, z0, N, t_delta, [case])
+    filename = 'data_case' + testcase + '.csv'
     fh.save_data(filename, dataset)
 
     # Load and plot data from new file
     df = pd.read_csv(filename)
     pl.plot_data(df)
+    shutil.move('./' + filename, data_folder)
 
-# Move the data and all pdf files to folder
-data_folder = './case' + testcase + '_files'
-os.mkdir(data_folder)
-shutil.move('./' + filename, data_folder)
-
+# Move all PDFs to data folder
 for f in glob.glob("./*.pdf"):
     shutil.move(f, data_folder)
