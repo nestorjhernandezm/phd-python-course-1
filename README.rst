@@ -87,7 +87,8 @@ that contains all the required 2D and 3D plots.
 
 Also, you can test to run these testcases without running ``run.py``.
 Here, if the ``caseX.py`` notices that the file is not available, it
-simply
+simply creates a ``data_caseX.csv`` and stores it in the respective
+folder.
 
 Unit Testing
 ------------
