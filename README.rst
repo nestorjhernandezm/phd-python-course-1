@@ -72,8 +72,9 @@ is to vertically stack all the parameters and states, available
 Plotting
 --------
 For plotting the data for a given testcase, simply do::
+
   cd ~/phd-python-1/cases
-  python testcase1.py  # For example for the testcase 1 or..
+  python testcase1.py  # For example for the testcase 1
   python testcase2.py  # For example for the testcase 2 and so on..
 
 Those scripts simply call a generic ``caseX.py`` script in the same
