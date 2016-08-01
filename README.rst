@@ -68,6 +68,14 @@ the docstring of the ``save_data`` function in the
 is to vertically stack all the parameters and states, available
 ``data`` input variable and store them as CSV.
 
+Basic Parameters
+----------------
+To generate all the solutions, we simply used the initial conditions:
+``x0 = 0.01``, ``y0 = 0`` and ``z0 = 0``. For the Euler-based solver,
+we used a total number of points and step size of: ``N = 5000`` and
+``t_delta = 0.01``. This generated all our solutions properly and
+in a reasonable amount of time.
+
 
 Plotting
 --------
