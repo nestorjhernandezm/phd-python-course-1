@@ -12,7 +12,7 @@ in a terminal::
 
 Or, if you don't have SSH, by doing::
 
-  git clone https://github.com/libgit2/libgit2
+  git clone https://nestorjhernandezm@bitbucket.org/nestorjhernandezm/phd-python-1.git
 
 The mini-project is based in the Lorenz attractor equations. These
 are a set of 3D, non-linear ordinary differential equations. Each
@@ -32,9 +32,10 @@ In what follows, we provide a short description of the mini-project.
 
 Getting Started
 ---------------
-.. As a first step, you can run the repository by generating::
+As a first step, once having decompressed the ``.zip`` file or cloning
+the repository, you can run the repository by generating::
 
-..   sudo apt-get install g++ python mercurial git-core
+  python run.py
 
 .. In the following, we will clone ns-3 to the ``~/ns-3-dev`` folder and we
 .. will clone the kodo-ns3-examples to the ``~/kodo-ns3-examples`` folder.
