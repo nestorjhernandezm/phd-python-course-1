@@ -2,7 +2,7 @@ Introduction
 ------------
 This structure contains the mini-project for the course
 "Scientific Computing using Python, part 1", held at Aalborg University,
-May 2016. The main and onlyof this source code is Nestor J. Hernandez M.
+May 2016. The main and only owner of this source code is Nestor J. Hernandez M.
 The structure is stored and sent as a ``.zip`` file, but also
 available at: https://bitbucket.org/nestorjhernandezm/phd-python-1/
 
